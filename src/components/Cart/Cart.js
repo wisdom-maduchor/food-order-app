@@ -7,7 +7,7 @@ import CartItem from "./CartItem";
 const Cart = (props) => {
   const cartCtx = useContext(CartContext);
 
-  const totalAmoount = `$${cartCtx.totalAmount.toFixed(2)}`;
+  const totalAmount = `$${cartCtx.totalAmount.toFixed(2)}`;
   const hasItem = cartCtx.items.length > 0;
 
   const onAddItemHandler = (item) => {};
@@ -33,8 +33,8 @@ const Cart = (props) => {
     <Modal onCloseModalBackdrop={props.onHideCart}>
       {CartItems}
       <div className={classes.total}>
-        <span>{totalAmoount}</span>
-        <span>35.92</span>
+        <span>Total Amoount</span>
+        <span>{totalAmount}</span>
       </div>
 
       <div className={classes.actions}>
