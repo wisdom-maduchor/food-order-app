@@ -10,9 +10,13 @@ const Cart = (props) => {
   const totalAmount = `$${cartCtx.totalAmount.toFixed(2)}`;
   const hasItem = cartCtx.items.length > 0;
 
-  const onAddItemHandler = (item) => {};
+  const onAddItemHandler = (item) => {
+    cartCtx.addItem({...item, amount: 1});
+  };
 
-  const onRemoveItemHandler = (id) => {};
+  const onRemoveItemHandler = (id) => {
+    cartCtx.removeItem(id);
+  };
 
   const CartItems = (
     <ul className={classes["cart-items"]}>
@@ -33,7 +37,7 @@ const Cart = (props) => {
     <Modal onCloseModalBackdrop={props.onHideCart}>
       {CartItems}
       <div className={classes.total}>
-        <span>Total Amoount</span>
+        <span>Total Amount</span>
         <span>{totalAmount}</span>
       </div>
 
