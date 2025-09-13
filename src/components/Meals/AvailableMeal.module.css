@@ -5,7 +5,7 @@
   animation: meals-appear 1s ease-out forwards;
 }
 
-.loading {
+.mealLoading {
   text-align: center;
   color: white;
 }
