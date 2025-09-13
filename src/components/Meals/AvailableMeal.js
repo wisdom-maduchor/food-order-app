@@ -32,12 +32,17 @@ const DUMMY_MEALS = [
 
 const AvailableMeal = () => {
     const [isLoading, setIsLoading] = useState(true);
-
     const [food, setFood] = useState([]);
+    const [httpError, setHttpError] = useState();
 
     useEffect(() => {
         const fetchMeal = async() => {
-            const response = await fetch('https://foodapp-583ea-default-rtdb.firebaseio.com/meals.json');
+            const response = await fetch('https://foodapp-583ea-default-rtdb.firebaseio.com/meals');
+
+            if(!response.ok){
+                throw new Error('something went wrong');
+            };
+
             const data = await response.json();
 
             const loadMeal = [];
@@ -49,29 +54,47 @@ const AvailableMeal = () => {
                     description: data[key].description,
                     price: data[key].price
                 });
-            };
+            }
 
             setFood(loadMeal);
             setIsLoading(false);
-        }; 
+        };
 
-        fetchMeal();
-    }, [])
+        // try{
+        //     fetchMeal();
+        // }catch(error){
+        //     setIsLoading(false);
+        //     setHttpError(error.message);
+        // };
 
-    if(isLoading){
+        // instead of using try catch block we can use .catch method.This is because we cannot use async await with try catch block directly in useEffect function
+        fetchMeal().catch((error) => {
+            setIsLoading(false);
+            setHttpError(error.message);
+        });
+
+    }, []);
+
+    if(isLoading) {
         return <section className={classes.loading}>
             <p>Loading...</p>
         </section>
-    };
+    }
 
+    if(httpError) {
+        return <section className={classes.mealError}>
+            <p>Error Detected</p>
+        </section>
+    }
+    
     const mealsList = food.map(meal => 
-    <MealItem
-        key={meal.id}
-        id={meal.id}
-        name={meal.name}
-        description={meal.description}
-        price={meal.price}
-     />
+        <MealItem
+            key={meal.id}
+            id={meal.id}
+            name={meal.name}
+            description={meal.description}
+            price={meal.price}
+        />
     )
 
     return (
