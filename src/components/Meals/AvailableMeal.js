@@ -37,7 +37,7 @@ const AvailableMeal = () => {
 
     useEffect(() => {
         const fetchMeal = async() => {
-            const response = await fetch('https://foodapp-583ea-default-rtdb.firebaseio.com/meals');
+            const response = await fetch('https://foodapp-583ea-default-rtdb.firebaseio.com/meals.json');
 
             if(!response.ok){
                 throw new Error('something went wrong');
@@ -68,6 +68,8 @@ const AvailableMeal = () => {
         // };
 
         // instead of using try catch block we can use .catch method.This is because we cannot use async await with try catch block directly in useEffect function
+
+        // catch method
         fetchMeal().catch((error) => {
             setIsLoading(false);
             setHttpError(error.message);
