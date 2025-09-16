@@ -36,30 +36,38 @@ const Checkout = (props) => {
             postalCode: enteredPostalCodeValid,
             city: enteredCityValid
         });
+
+        const formValid = enteredNameValid && enteredStreetValid && enteredPostalCodeValid && enteredCityValid;
+
+        if(formValid) {
+            return;
+        };
+
+        // submit card data;
     };
 
-    const nameStyle = (
-        `${classes.control} ${!detectValidInput.name ? classes.invalid : ''}`
+    const nameControlStyle = (
+        `${classes.control} ${detectValidInput.name ? '' : classes.invalid }`
     );
 
     return (
         <form className={classes.form} onSubmit={ConfirmHandler}>
-            <div className={nameStyle}>
+            <div className={nameControlStyle}>
                 <label htmlFor="name">Your Name</label>
                 <input type="text" id="name" ref={nameInputRef} />
                 {!detectValidInput.name && <p>Name is not Valid!</p>}
             </div>
-            <div className={`${classes.control} ${!detectValidInput.street ? classes.invalid : ''}`}>
+            <div className={`${classes.control} ${detectValidInput.street ? '' : classes.invalid}`}>
                 <label htmlFor="street">Street</label>
                 <input type="text" id="street" ref={streetInputRef} />
                 {!detectValidInput.street && <p>Street is not valid!</p>}
             </div>
-            <div className={`${classes.control} ${!detectValidInput.postalCode ? classes.invalid : ''}`}>
+            <div className={`${classes.control} ${detectValidInput.postalCode ? '' : classes.invalid}`}>
                 <label htmlFor="postal">Postal Code</label>
                 <input type="text" id="postal" ref={postalCodeInputRef} />
                 {!detectValidInput.postalCode && <p>Postal Code is not valid!</p>}
             </div>
-            <div className={`${classes.control} ${!detectValidInput.city ? classes.invalid : ''}`}>
+            <div className={`${classes.control} ${detectValidInput.city ? '' : classes.invalid}`}>
                 <label htmlFor="city">City</label>
                 <input type="text" id="city" ref={cityInputRef} />
                 {!detectValidInput.city && <p>City is not valid!</p>}
