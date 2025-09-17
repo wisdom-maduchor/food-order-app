@@ -46,13 +46,13 @@ const Checkout = (props) => {
         // submit cart data
     };
 
-    const styleName = (
+    const styleControlName = (
         `${classes.control} ${validInputForm.name ? '' : classes.invalid}`
     )
 
     return (
         <form className={classes.form} onSubmit={ConfirmHandler}>
-            <div className={styleName}>
+            <div className={styleControlName}>
                 <label htmlFor="name">Your Name</label>
                 <input type="text" id="name" ref={nameInputRef} />
                 {!validInputForm.name && <p>please enter a valid name</p>}
