@@ -1,4 +1,4 @@
-import React, { useContext, useState} from "react";
+import React,{ useContext, useState} from "react";
 import classes from "./Cart.module.css";
 import Modal from "../UI/Modal";
 import CartContext from "../../store/Cart-context";
@@ -7,8 +7,8 @@ import Checkout from "./Checkout";
 
 const Cart = (props) => {
   const [isCheck, setIsCheck] = useState(false);
-  const [isSubmittingOrder, setIsSubmittingOrder] = useState(false);
-  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isSubmittingOrder, setIsSubmittingOrder] = useState(false)
+  const [hasSubmittedOrder, setHasSubmittedOrder] = useState(false);
   const cartCtx = useContext(CartContext);
 
   const totalAmount = `$${cartCtx.totalAmount.toFixed(2)}`;
@@ -36,7 +36,7 @@ const Cart = (props) => {
       })
     });
     setIsSubmittingOrder(false);
-    setIsSubmitted(true);
+    setHasSubmittedOrder(true);
     cartCtx.clearCart();
   };
 
@@ -64,7 +64,18 @@ const Cart = (props) => {
       </div>
       )
 
-  const modalcontent = <React.Fragment>
+  const submittingOrderNotice = <p>Submitting Order...</p>
+
+  const submittedOrderNotice = <React.Fragment>
+    <p>Your Order has been placed successfully</p>
+    <div className={classes.actions}>
+          <button className={classes.button} onClick={props.onHideCart}>
+            Close
+          </button>
+      </div>
+  </React.Fragment> 
+
+  const modalContent = <React.Fragment>
     {CartItems}
       <div className={classes.total}>
         <span>Total Amount</span>
@@ -73,25 +84,12 @@ const Cart = (props) => {
      {isCheck && <Checkout onConfirm={submitOrdersHandler} onCancel={props.onHideCart} />}
      {!isCheck && modalAction}
   </React.Fragment>
-
-  const OrderSubmitting = <p>Submitting order...</p>
-
-  const SubmittedOreder = (
-    <React.Fragment>
-      <p>your order has been placed!</p>
-      <div className={classes.actions}>
-            <button className={classes.button} onClick={props.onHideCart}>
-              Close
-            </button>
-        </div>
-    </React.Fragment>
-  )
-
+  
   return (
     <Modal onCloseModalBackdrop={props.onHideCart}>
-      {!isSubmittingOrder && !isSubmitted && modalcontent}
-      {isSubmittingOrder && OrderSubmitting}
-      {isSubmitted && !isSubmittingOrder && SubmittedOreder}
+      {!isSubmittingOrder && !hasSubmittedOrder && modalContent}
+      {isSubmittingOrder && submittingOrderNotice}
+      {!isSubmittingOrder && hasSubmittedOrder && submittedOrderNotice}
     </Modal>
   );
 };
